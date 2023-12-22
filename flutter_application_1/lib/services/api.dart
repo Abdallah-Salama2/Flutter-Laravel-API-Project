@@ -1,49 +1,49 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter_application_1/Models/Category.dart';
+import 'package:flutter_application_1/Models/category.dart';
 import 'package:flutter_application_1/Models/transaction.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
   late String token;
 
-  final String baseUrl = 'http://10.0.2.2:8000/api/';
-  //for edge eb //Uri.parse('http://127.0.0.1:8000/api/categories')
+  ApiService(String token) {
+    this.token = token;
+  }
+
+  final String baseUrl = 'http://flutter-api.laraveldaily.com/api/';
 
   Future<List<Category>> fetchCategories() async {
     http.Response response = await http.get(
       Uri.parse(baseUrl + 'categories'),
-
-      //assinged variable respne to the url and type of vairable is http.repsonse
+      headers: {
+        HttpHeaders.acceptHeader: 'application/json',
+        HttpHeaders.authorizationHeader: 'Bearer $token'
+      },
     );
 
     List categories = jsonDecode(response.body);
-    // we decoded reponse body into the list of categories
-
-    //now transfer the list i got from response.body to the list of model <Category>
 
     return categories.map((category) => Category.fromJson(category)).toList();
-    //so by the end of transfrom we get list of Category Model and return it as a future
   }
 
   Future<Category> addCategory(String name) async {
     String uri = baseUrl + 'categories';
 
-    http.Response response = await http.post(
-      Uri.parse(uri),
-      headers: {
-        HttpHeaders.contentTypeHeader: 'application/json',
-        HttpHeaders.acceptHeader: 'application/json',
-      },
-      body: jsonEncode({'name': name}),
-    );
+    http.Response response = await http.post(Uri.parse(uri),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.acceptHeader: 'application/json',
+          HttpHeaders.authorizationHeader: 'Bearer $token'
+        },
+        body: jsonEncode({'name': name}));
 
-    if (response.statusCode == 201) {
-      return Category.fromJson(jsonDecode(response.body));
-    } else {
-      throw Exception('Error happened on create: ${response.statusCode}');
+    if (response.statusCode != 201) {
+      throw Exception('Error happened on create');
     }
+
+    return Category.fromJson(jsonDecode(response.body));
   }
 
   Future<Category> updateCategory(Category category) async {
@@ -53,6 +53,7 @@ class ApiService {
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.acceptHeader: 'application/json',
+          HttpHeaders.authorizationHeader: 'Bearer $token'
         },
         body: jsonEncode({'name': category.name}));
 
@@ -65,8 +66,13 @@ class ApiService {
 
   Future<void> deleteCategory(id) async {
     String uri = baseUrl + 'categories/' + id.toString();
-
-    http.Response response = await http.delete(Uri.parse(uri));
+    http.Response response = await http.delete(
+      Uri.parse(uri),
+      headers: {
+        HttpHeaders.acceptHeader: 'application/json',
+        HttpHeaders.authorizationHeader: 'Bearer $token'
+      },
+    );
 
     if (response.statusCode != 204) {
       throw Exception('Error happened on delete');

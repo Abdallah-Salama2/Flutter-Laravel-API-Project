@@ -1,67 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_application_1/pages/categories.dart';
+import 'package:flutter_application_1/pages/home.dart';
+import 'package:flutter_application_1/pages/login.dart';
+import 'package:flutter_application_1/pages/register.dart';
+import 'package:flutter_application_1/providers/AuthProvider.dart';
 import 'package:flutter_application_1/providers/CategoryProvider.dart';
-import 'package:flutter_application_1/providers/authProvider.dart';
+import 'package:flutter_application_1/providers/TransactionProvider.dart';
+
 import 'package:provider/provider.dart';
 
-import 'values/app_theme.dart';
-import 'pages/login_page.dart';
-import 'pages/register_page.dart';
-import 'values/app_constants.dart';
-import 'values/app_routes.dart';
-
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      statusBarIconBrightness: Brightness.light,
-    ),
-  );
-  SystemChrome.setPreferredOrientations(
-    [DeviceOrientation.portraitUp],
-  ).then(
-    (_) => runApp(
-      const MyApp(),
-    ),
-  );
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
-    Theme.of(context);
     return ChangeNotifierProvider(
         create: (context) => AuthProvider(),
         child: Consumer<AuthProvider>(builder: (context, authProvider, child) {
           return MultiProvider(
               providers: [
                 ChangeNotifierProvider<CategoryProvider>(
-                    create: (context) => CategoryProvider()),
-                ChangeNotifierProvider<AuthProvider>(
-                    create: (context) => AuthProvider())
+                    create: (context) => CategoryProvider(authProvider)),
+                ChangeNotifierProvider<TransactionProvider>(
+                    create: (context) => TransactionProvider(authProvider))
               ],
-              child: MaterialApp(
-                  debugShowCheckedModeBanner: false,
-                  title: 'Login and Register UI',
-                  theme: AppTheme.themeData,
-                  initialRoute: AppRoutes.loginScreen,
-                  navigatorKey: AppConstants.navigationKey,
-                  routes: {
-                    '/': (context) {
-                      final authProvider = Provider.of<AuthProvider>(context);
-                      if (authProvider.isAuthenticated) {
-                        return Categories();
-                      } else {
-                        return LoginPage();
-                      }
-                    },
-                    AppRoutes.loginScreen: (context) => const LoginPage(),
-                    AppRoutes.registerScreen: (context) => const RegisterPage(),
-                    AppRoutes.category: (context) => Categories(),
-                  }));
+              child: MaterialApp(title: 'Welcome to Flutter', routes: {
+                '/': (context) {
+                  final authProvider = Provider.of<AuthProvider>(context);
+                  if (authProvider.isAuthenticated) {
+                    return Home();
+                  } else {
+                    return Login();
+                  }
+                },
+                '/login': (context) => Login(),
+                '/register': (context) => Register(),
+                '/home': (context) => Home(),
+                '/categories': (context) => Categories(),
+              }));
         }));
   }
 }

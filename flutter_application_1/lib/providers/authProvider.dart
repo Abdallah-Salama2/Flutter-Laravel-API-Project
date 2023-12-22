@@ -16,7 +16,7 @@ class AuthProvider extends ChangeNotifier {
     if (this.token.isNotEmpty) {
       this.isAuthenticated = true;
     }
-    this.apiService = new ApiService();
+    this.apiService = new ApiService(this.token);
     notifyListeners();
   }
 
