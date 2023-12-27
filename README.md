@@ -52,7 +52,7 @@ php artisan serve
 ###Flutter Frontend
 1.Navigate to the Flutter frontend directory:
 ```bash
-cd frontend
+cd flutter_application_1
 ```
 2.Get Flutter dependencies:
 ```bash
