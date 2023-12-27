@@ -1,31 +1,36 @@
 import 'package:flutter/material.dart';
-
-import 'package:my_first_app/Models/category.dart';
-import 'package:my_first_app/widgets/CategoryAdd.dart';
+import 'package:my_first_app/models/transaction.dart';
+import 'package:my_first_app/widgets/TransactionAdd.dart';
+import 'package:my_first_app/widgets/TransactionsEdit.dart';
 import 'package:provider/provider.dart';
+import 'package:my_first_app/providers/TransactionProvider.dart';
 
-class Categories extends StatefulWidget {
+class Transactions extends StatefulWidget {
   @override
-  _CategoriesState createState() => _CategoriesState();
+  _TransactionsState createState() => _TransactionsState();
 }
 
-class _CategoriesState extends State<Categories> {
+class _TransactionsState extends State<Transactions> {
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<CategoryProvider>(context);
-    List<Category> categories = provider.categories;
+    final provider = Provider.of<TransactionProvider>(context);
+    List<Transaction> transactions = provider.transactions;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Categories'),
+        title: Text('Transactions'),
       ),
       body: ListView.builder(
-        itemCount: categories.length,
+        itemCount: transactions.length,
         itemBuilder: (context, index) {
-          Category category = categories[index];
+          Transaction transaction = transactions[index];
           return ListTile(
-            title: Text(category.name),
+            title: Text('\$' + transaction.amount),
             trailing: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+              Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Text(transaction.transactionDate),
+                Text(transaction.description),
+              ]),
               IconButton(
                 icon: Icon(Icons.edit),
                 onPressed: () {
@@ -33,7 +38,8 @@ class _CategoriesState extends State<Categories> {
                       isScrollControlled: true,
                       context: context,
                       builder: (BuildContext context) {
-                        return CategoryEdit(category, provider.updateCategory);
+                        return TransactionEdit(
+                            transaction, provider.updateTransaction);
                       });
                 },
               ),
@@ -53,8 +59,10 @@ class _CategoriesState extends State<Categories> {
                             ),
                             TextButton(
                                 child: Text("Delete"),
-                                onPressed: () => deleteCategory(
-                                    provider.deleteCategory, category)),
+                                onPressed: () => deleteTransaction(
+                                    provider.deleteTransaction,
+                                    transaction,
+                                    context)),
                           ],
                         );
                       });
@@ -70,15 +78,16 @@ class _CategoriesState extends State<Categories> {
                 isScrollControlled: true,
                 context: context,
                 builder: (BuildContext context) {
-                  return CategoryAdd(provider.addCategory);
+                  return TransactionAdd(provider.addTransaction);
                 });
           },
           child: Icon(Icons.add)),
     );
   }
 
-  Future deleteCategory(Function callback, Category category) async {
-    await callback(category);
+  Future deleteTransaction(
+      Function callback, Transaction transaction, BuildContext context) async {
+    await callback(transaction);
     Navigator.pop(context);
   }
 }

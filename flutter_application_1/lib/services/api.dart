@@ -1,9 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 
-import 'package:flutter_application_1/Models/category.dart';
-import 'package:flutter_application_1/Models/transaction.dart';
 import 'package:http/http.dart' as http;
+import 'package:my_first_app/models/category.dart';
+import 'package:my_first_app/models/transaction.dart';
 
 class ApiService {
   late String token;
@@ -12,20 +11,61 @@ class ApiService {
     this.token = token;
   }
 
-  final String baseUrl = 'http://flutter-api.laraveldaily.com/api/';
+  final String baseUrl = 'http://10.0.2.2:8000/api/';
 
   Future<List<Category>> fetchCategories() async {
-    http.Response response = await http.get(
-      Uri.parse(baseUrl + 'categories'),
-      headers: {
-        HttpHeaders.acceptHeader: 'application/json',
-        HttpHeaders.authorizationHeader: 'Bearer $token'
-      },
-    );
+    try {
+      http.Response response = await http.get(
+        Uri.parse(baseUrl + 'categories'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
 
-    List categories = jsonDecode(response.body);
+      // Check if the response status code is 200 (OK)
+      if (response.statusCode == 200) {
+        // Parse the response body as a string
+        String? responseBody = response.body;
 
-    return categories.map((category) => Category.fromJson(category)).toList();
+        // Check if the response body is not null and not empty
+        if (responseBody != null && responseBody.isNotEmpty) {
+          // Decode the JSON response
+          List<dynamic> jsonResponse = jsonDecode(responseBody);
+
+          // Ensure that jsonResponse is a list
+          if (jsonResponse is List) {
+            // Map each element to a Category object
+            List<Category> categories = jsonResponse
+                .map((category) => Category.fromJson(category))
+                .toList();
+
+            // Return the list of categories
+            return categories;
+          } else {
+            // Handle the case where the JSON response is not a list
+            print(
+                'Unexpected JSON format. Expected a list under "categories".');
+            return [];
+          }
+        } else {
+          // Handle the case where the response body is empty or null
+          print('Empty or null response body.');
+          return [];
+        }
+      } else {
+        // Handle non-200 status code if needed
+        print(
+            'Failed to fetch categories. Status code: ${response.statusCode}');
+        print(response.body);
+        return [];
+      }
+    } catch (e) {
+      // Handle exceptions during the HTTP request
+      print('Error during HTTP request: $e');
+      return [];
+    }
   }
 
   Future<Category> addCategory(String name) async {
@@ -33,9 +73,9 @@ class ApiService {
 
     http.Response response = await http.post(Uri.parse(uri),
         headers: {
-          HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.acceptHeader: 'application/json',
-          HttpHeaders.authorizationHeader: 'Bearer $token'
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
         },
         body: jsonEncode({'name': name}));
 
@@ -51,9 +91,9 @@ class ApiService {
 
     http.Response response = await http.put(Uri.parse(uri),
         headers: {
-          HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.acceptHeader: 'application/json',
-          HttpHeaders.authorizationHeader: 'Bearer $token'
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
         },
         body: jsonEncode({'name': category.name}));
 
@@ -69,8 +109,9 @@ class ApiService {
     http.Response response = await http.delete(
       Uri.parse(uri),
       headers: {
-        HttpHeaders.acceptHeader: 'application/json',
-        HttpHeaders.authorizationHeader: 'Bearer $token'
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
       },
     );
 
@@ -80,19 +121,59 @@ class ApiService {
   }
 
   Future<List<Transaction>> fetchTransactions() async {
-    http.Response response = await http.get(
-      Uri.parse(baseUrl + 'transactions'),
-      headers: {
-        HttpHeaders.acceptHeader: 'application/json',
-        HttpHeaders.authorizationHeader: 'Bearer $token'
-      },
-    );
+    try {
+      http.Response response = await http.get(
+        Uri.parse(baseUrl + 'transactions'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
 
-    List transactions = jsonDecode(response.body);
+      // Check if the response status code is 200 (OK)
+      if (response.statusCode == 200) {
+        // Parse the response body as a string
+        String? responseBody = response.body;
 
-    return transactions
-        .map((transaction) => Transaction.fromJson(transaction))
-        .toList();
+        // Check if the response body is not null and not empty
+        if (responseBody != null && responseBody.isNotEmpty) {
+          // Decode the JSON response
+          List<dynamic> jsonResponse = jsonDecode(responseBody);
+
+          // Ensure that jsonResponse is a list
+          if (jsonResponse is List) {
+            // Map each element to a Transaction object
+            List<Transaction> transactions = jsonResponse
+                .map((transaction) => Transaction.fromJson(transaction))
+                .toList();
+
+            // Return the list of transactions
+            return transactions;
+          } else {
+            // Handle the case where the JSON response is not a list
+            print(
+                'Unexpected JSON format. Expected a list under "transactions".');
+            return [];
+          }
+        } else {
+          // Handle the case where the response body is empty or null
+          print('Empty or null response body.');
+          return [];
+        }
+      } else {
+        // Handle non-200 status code if needed
+        print(
+            'Failed to fetch transactions. Status code: ${response.statusCode}');
+        print(response.body);
+
+        return [];
+      }
+    } catch (e) {
+      // Handle exceptions during the HTTP request
+      print('Error during HTTP request: $e');
+      return [];
+    }
   }
 
   Future<Transaction> addTransaction(
@@ -101,9 +182,9 @@ class ApiService {
 
     http.Response response = await http.post(Uri.parse(uri),
         headers: {
-          HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.acceptHeader: 'application/json',
-          HttpHeaders.authorizationHeader: 'Bearer $token'
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
         },
         body: jsonEncode({
           'amount': amount,
@@ -115,6 +196,7 @@ class ApiService {
     if (response.statusCode != 201) {
       throw Exception('Error happened on create');
     }
+    print(response.body);
 
     return Transaction.fromJson(jsonDecode(response.body));
   }
@@ -124,9 +206,9 @@ class ApiService {
 
     http.Response response = await http.put(Uri.parse(uri),
         headers: {
-          HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.acceptHeader: 'application/json',
-          HttpHeaders.authorizationHeader: 'Bearer $token'
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
         },
         body: jsonEncode({
           'amount': transaction.amount,
@@ -147,8 +229,9 @@ class ApiService {
     http.Response response = await http.delete(
       Uri.parse(uri),
       headers: {
-        HttpHeaders.acceptHeader: 'application/json',
-        HttpHeaders.authorizationHeader: 'Bearer $token'
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
       },
     );
 
@@ -163,8 +246,8 @@ class ApiService {
 
     http.Response response = await http.post(Uri.parse(uri),
         headers: {
-          HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.acceptHeader: 'application/json',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
         },
         body: jsonEncode({
           'name': name,
@@ -195,8 +278,8 @@ class ApiService {
 
     http.Response response = await http.post(Uri.parse(uri),
         headers: {
-          HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.acceptHeader: 'application/json',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
         },
         body: jsonEncode(
             {'email': email, 'password': password, 'device_name': deviceName}));

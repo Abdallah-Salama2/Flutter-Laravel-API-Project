@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/services/api.dart';
+import 'package:my_first_app/services/api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthProvider extends ChangeNotifier {
@@ -34,6 +34,7 @@ class AuthProvider extends ChangeNotifier {
     setToken(this.token);
     this.isAuthenticated = true;
     notifyListeners();
+    print(this.token);
   }
 
   Future<void> logOut() async {

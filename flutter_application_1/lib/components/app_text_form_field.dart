@@ -6,7 +6,6 @@ class AppTextFormField extends StatelessWidget {
     required this.labelText,
     required this.keyboardType,
     required this.controller,
-    super.key,
     this.onChanged,
     this.validator,
     this.obscureText,

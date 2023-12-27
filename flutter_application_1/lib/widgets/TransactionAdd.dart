@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_application_1/Models/category.dart';
-import 'package:flutter_application_1/providers/CategoryProvider.dart';
 import 'package:intl/intl.dart';
-
+import 'package:my_first_app/models/category.dart';
 import 'package:provider/provider.dart';
+import 'package:my_first_app/providers/CategoryProvider.dart';
 
 class TransactionAdd extends StatefulWidget {
   final Function transactionCallback;
@@ -112,11 +111,11 @@ class _TransactionAddState extends State<TransactionAdd> {
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime(DateTime.now().year - 5),
-        lastDate: DateTime(DateTime.now().year + 5));
+        lastDate: DateTime(DateTime.now().year + 5)
+    );
     if (picked != null)
       setState(() {
-        transactionDateController.text =
-            DateFormat('MM/dd/yyyy').format(picked);
+        transactionDateController.text = DateFormat('MM/dd/yyyy').format(picked);
       });
   }
 
@@ -168,7 +167,9 @@ class _TransactionAddState extends State<TransactionAdd> {
         transactionAmountController.text,
         transactionCategoryController.text,
         transactionDescriptionController.text,
-        transactionDateController.text);
+        transactionDateController.text
+    );
     Navigator.pop(context);
   }
+
 }

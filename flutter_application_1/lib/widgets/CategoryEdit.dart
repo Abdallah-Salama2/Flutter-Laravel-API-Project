@@ -1,12 +1,11 @@
-import 'package:flutter_application_1/Models/category.dart';
+import 'package:my_first_app/models/category.dart';
 import 'package:flutter/material.dart';
 
 class CategoryEdit extends StatefulWidget {
   final Category category;
   final Function categoryCallback;
 
-  CategoryEdit(this.category, this.categoryCallback, {Key? key})
-      : super(key: key);
+  CategoryEdit(this.category, this.categoryCallback, {Key? key}) : super(key: key);
 
   @override
   _CategoryEditState createState() => _CategoryEditState();

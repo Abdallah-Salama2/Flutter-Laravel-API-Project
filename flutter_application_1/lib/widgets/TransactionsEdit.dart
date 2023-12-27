@@ -1,17 +1,16 @@
-import 'package:flutter_application_1/Models/category.dart';
-import 'package:flutter_application_1/Models/transaction.dart';
+import 'package:my_first_app/models/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_application_1/providers/CategoryProvider.dart';
 import 'package:intl/intl.dart';
+import 'package:my_first_app/models/category.dart';
 import 'package:provider/provider.dart';
+import 'package:my_first_app/providers/CategoryProvider.dart';
 
 class TransactionEdit extends StatefulWidget {
   final Transaction transaction;
   final Function transactionCallback;
 
-  TransactionEdit(this.transaction, this.transactionCallback, {Key? key})
-      : super(key: key);
+  TransactionEdit(this.transaction, this.transactionCallback, {Key? key}) : super(key: key);
 
   @override
   _TransactionEditState createState() => _TransactionEditState();
@@ -28,12 +27,9 @@ class _TransactionEditState extends State<TransactionEdit> {
   @override
   void initState() {
     transactionAmountController.text = widget.transaction.amount.toString();
-    transactionCategoryController.text =
-        widget.transaction.categoryId.toString();
-    transactionDescriptionController.text =
-        widget.transaction.description.toString();
-    transactionDateController.text =
-        widget.transaction.transactionDate.toString();
+    transactionCategoryController.text = widget.transaction.categoryId.toString();
+    transactionDescriptionController.text = widget.transaction.description.toString();
+    transactionDateController.text = widget.transaction.transactionDate.toString();
     super.initState();
   }
 
@@ -126,11 +122,11 @@ class _TransactionEditState extends State<TransactionEdit> {
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime(DateTime.now().year - 5),
-        lastDate: DateTime(DateTime.now().year + 5));
+        lastDate: DateTime(DateTime.now().year + 5)
+    );
     if (picked != null)
       setState(() {
-        transactionDateController.text =
-            DateFormat('MM/dd/yyyy').format(picked);
+        transactionDateController.text = DateFormat('MM/dd/yyyy').format(picked);
       });
   }
 
@@ -180,8 +176,7 @@ class _TransactionEditState extends State<TransactionEdit> {
     }
 
     widget.transaction.amount = transactionAmountController.text;
-    widget.transaction.categoryId =
-        int.parse(transactionCategoryController.text);
+    widget.transaction.categoryId = int.parse(transactionCategoryController.text);
     widget.transaction.description = transactionDescriptionController.text;
     widget.transaction.transactionDate = transactionDateController.text;
 

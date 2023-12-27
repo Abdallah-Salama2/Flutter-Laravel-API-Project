@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Models/category.dart';
-import 'package:flutter_application_1/providers/authProvider.dart';
-import 'package:flutter_application_1/services/api.dart';
+import 'package:my_first_app/models/category.dart';
+import 'package:my_first_app/providers/AuthProvider.dart';
+import 'package:my_first_app/services/api.dart';
 
 class CategoryProvider extends ChangeNotifier {
   List<Category> categories = [];

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/pages/categories.dart';
-import 'package:flutter_application_1/pages/home.dart';
-import 'package:flutter_application_1/pages/login.dart';
-import 'package:flutter_application_1/pages/register.dart';
-import 'package:flutter_application_1/providers/AuthProvider.dart';
-import 'package:flutter_application_1/providers/CategoryProvider.dart';
-import 'package:flutter_application_1/providers/TransactionProvider.dart';
-
+import 'package:my_first_app/providers/AuthProvider.dart';
+import 'package:my_first_app/providers/CategoryProvider.dart';
+import 'package:my_first_app/providers/TransactionProvider.dart';
+import 'package:my_first_app/screens/categories.dart';
+import 'package:my_first_app/screens/home.dart';
+import 'package:my_first_app/screens/login.dart';
+import 'package:my_first_app/screens/register.dart';
 import 'package:provider/provider.dart';
 
 void main() => runApp(MyApp());

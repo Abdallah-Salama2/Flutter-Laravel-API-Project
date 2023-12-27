@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Models/transaction.dart';
-import 'package:flutter_application_1/providers/authProvider.dart';
-import 'package:flutter_application_1/services/api.dart';
+import 'package:my_first_app/models/transaction.dart';
+import 'package:my_first_app/providers/AuthProvider.dart';
+import 'package:my_first_app/services/api.dart';
 
 class TransactionProvider extends ChangeNotifier {
   List<Transaction> transactions = [];
@@ -29,7 +29,8 @@ class TransactionProvider extends ChangeNotifier {
 
       notifyListeners();
     } catch (Exception) {
-      await authProvider.logOut();
+      print("EXCEPTTTTTTTTTTTTIOn add tarasn");
+      print(Exception);
     }
   }
 
