@@ -21,11 +21,44 @@ Make sure you have the following installed on your machine:
 ```bash
 git clone https://github.com/Abdallah-Salama2/Flutter-Laravel-API-Project
 cd your-project
+```
+2.Run the localhost server
 
-Copy the .env.example file to .env and configure your database settings:
+###Laravel Backend
+1.Navigate to the Laravel backend directory:
 ```bash
-Copy code
+cd flutter-api
+```
+2.Install Composer dependencies:
+```bash
+composer install
+```
+3.Copy the .env.example file to .env and configure your database settings:
+```bash
 cp .env.example .env
-
-
-
+```
+4.Generate an application key:
+```bash
+php artisan key:generate
+```
+5.Run migrations and seed the database:
+```bash
+php artisan migrate --seed
+```
+Start the Laravel development server:
+```bash
+php artisan serve
+```
+###Flutter Frontend
+1.Navigate to the Flutter frontend directory:
+```bash
+cd frontend
+```
+2.Get Flutter dependencies:
+```bash
+flutter pub get
+```
+3.Run the Flutter app:
+```bash
+flutter run
+```
