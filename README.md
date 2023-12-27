@@ -1,5 +1,5 @@
 # Flutter-Laravel-API-Project
- Cross-platform Flutter app with Laravel backend. Beautiful UI, efficient RESTful API, secure authentication, and scalable database management.
+ Cross-platform Flutter app with Laravel backend. Simple UI, efficient RESTful API, secure authentication, and scalable database management.
  
 ## Getting Started
 
