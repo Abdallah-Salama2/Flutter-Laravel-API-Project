@@ -22,7 +22,10 @@ Make sure you have the following installed on your machine:
 git clone https://github.com/Abdallah-Salama2/Flutter-Laravel-API-Project
 cd your-project
 
-
+Copy the .env.example file to .env and configure your database settings:
+```bash
+Copy code
+cp .env.example .env
 
 
 
