@@ -24,7 +24,7 @@ cd your-project
 ```
 2.Run the localhost server
 
-###Laravel Backend
+### Laravel Backend
 1.Navigate to the Laravel backend directory:
 ```bash
 cd flutter-api
@@ -49,7 +49,7 @@ Start the Laravel development server:
 ```bash
 php artisan serve
 ```
-###Flutter Frontend
+### Flutter Frontend
 1.Navigate to the Flutter frontend directory:
 ```bash
 cd flutter_application_1
