@@ -7,7 +7,7 @@ These instructions will guide you on how to set up and run both the Laravel back
 
 ### Dependencies
 
-Make sure you have the following installed on your machine:
+Make sure you have the following tools installed on your machine:
 
 - [PHP](https://www.php.net/) (for Laravel)
 - [Composer](https://getcomposer.org/) (for Laravel)
