@@ -5,7 +5,7 @@
 
 These instructions will guide you on how to set up and run both the Laravel backend and the Flutter frontend.
 
-### Prerequisites
+### Dependencies
 
 Make sure you have the following installed on your machine:
 
